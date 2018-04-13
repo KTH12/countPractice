@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded',function(){
         
         var arr = [];
         var currentIndex = 0;
+        var preAction;
         var actions = {
             "ArrowLeft" : ArrowLeft,
             "ArrowRight": ArrowRight,
@@ -18,10 +19,11 @@ document.addEventListener('DOMContentLoaded',function(){
         function Push(key){
             var changerNumber = parseInt(key);
             if(!Number.isNaN(changerNumber)){
-                moveIndex("push");
-                arr.splice(currentIndex+1,arr.length)
+                var indexDump = currentIndex;
+                if(currentIndex != 0) indexDump = currentIndex+1;
+                arr.splice(indexDump,arr.length)
                 arr.push(changerNumber);
-               
+                moveIndex("push");
                 return true;
             } else {
                 return false;
@@ -39,20 +41,30 @@ document.addEventListener('DOMContentLoaded',function(){
         function moveIndex(actionName){
             switch(actionName) {
                 case "push":
-                    currentIndex++;
+                // 첫번째 입력시에는 0이잖아 그러니까 증가 되어야되 
+                // 배열이 있는데 왼쪽 젤 끝에까지 가면은, 배열은 있는데 인덱스는 0이겠지?
+                // 그러면 어떻게 되야할까
+                    if(currentIndex < arr.length && currentIndex != 0){
+                        currentIndex = arr.length-1;
+                    } else {
+                        currentIndex++;
+                    }
+                    
                     break;
                 case "ArrowLeft":
-                    if(currentIndex != 0) {
+                    if(currentIndex != 0 && arr.length != 0) {
+                        preAction = "ArrowLeft";
                         currentIndex--;
+                        console.log("left : " ,currentIndex);
                     }
                     break;
                 case "ArrowRight":
-                    if(currentIndex <= arr.length) {
+                    if(currentIndex <= arr.length && arr.length != 0) {
+                        preAction = "ArrowRight";
                         currentIndex++;
                     }
                     break;
                 default:
-                    console.log("알수없음")
             }
         }
 
@@ -69,7 +81,6 @@ document.addEventListener('DOMContentLoaded',function(){
             app.innerHTML = ArrSum();
             arrDom.innerHTML = arr.join("->")
             indexDom.innerHTML = currentIndex;
-            console.log(arr);
         }
 
         function eventAction(event){
