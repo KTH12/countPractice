@@ -41,9 +41,6 @@ document.addEventListener('DOMContentLoaded',function(){
         function moveIndex(actionName){
             switch(actionName) {
                 case "push":
-                // 첫번째 입력시에는 0이잖아 그러니까 증가 되어야되 
-                // 배열이 있는데 왼쪽 젤 끝에까지 가면은, 배열은 있는데 인덱스는 0이겠지?
-                // 그러면 어떻게 되야할까
                     if(currentIndex < arr.length && currentIndex != 0){
                         currentIndex = arr.length-1;
                     } else {
@@ -55,7 +52,6 @@ document.addEventListener('DOMContentLoaded',function(){
                     if(currentIndex != 0 && arr.length != 0) {
                         preAction = "ArrowLeft";
                         currentIndex--;
-                        console.log("left : " ,currentIndex);
                     }
                     break;
                 case "ArrowRight":
